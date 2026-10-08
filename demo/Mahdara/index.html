@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo Gallery — School Manager</title>
+<meta name="description" content="Screenshot gallery for the School Manager demo — a full-stack school management platform.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08090d;
+    --surface:#101219;
+    --surface-2:#171a24;
+    --border:rgba(255,255,255,.08);
+    --border-hi:rgba(255,255,255,.16);
+    --text:#e9ecf5;
+    --muted:#8b93a7;
+    --accent:#6366f1;
+    --accent-2:#22d3ee;
+    --radius:16px;
+    --maxw:1200px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:90px}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:var(--bg);color:var(--text);
+    line-height:1.65;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ---------- TOP BAR ---------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:200;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    background:rgba(8,9,13,.7);
+    border-bottom:1px solid transparent;
+    transition:background .3s,border-color .3s;
+  }
+  .nav.scrolled{background:rgba(8,9,13,.92);border-bottom-color:var(--border)}
+  .nav-inner{
+    max-width:var(--maxw);margin:0 auto;padding:0 24px;
+    height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px;
+  }
+  .logo{
+    font-weight:800;font-size:1.05rem;letter-spacing:-.02em;
+    display:flex;align-items:center;gap:9px;
+  }
+  .logo-mark{
+    width:30px;height:30px;border-radius:9px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:grid;place-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#06070a;font-weight:700;
+  }
+  .back-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:9px 18px;border-radius:10px;font-size:.87rem;font-weight:600;
+    border:1px solid var(--border-hi);color:var(--text);
+    transition:border-color .2s,background .2s,transform .2s;
+  }
+  .back-btn:hover{border-color:var(--accent);background:rgba(99,102,241,.12);transform:translateY(-1px)}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;padding:150px 0 70px;overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000 20%,transparent 75%);
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000 20%,transparent 75%);
+  }
+  .hero::after{
+    content:'';position:absolute;top:-240px;left:50%;transform:translateX(-50%);
+    width:820px;height:520px;pointer-events:none;
+    background:radial-gradient(ellipse at center,rgba(99,102,241,.22),transparent 62%);
+    filter:blur(30px);
+  }
+  .hero-inner{position:relative;z-index:1;max-width:760px}
+  .badge{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:7px 15px;border-radius:999px;
+    border:1px solid var(--border-hi);background:rgba(255,255,255,.03);
+    font-family:'JetBrains Mono',monospace;
+    font-size:.76rem;font-weight:500;color:var(--muted);
+    margin-bottom:24px;
+  }
+  .badge .dot{
+    width:7px;height:7px;border-radius:50%;background:var(--accent-2);
+    box-shadow:0 0 0 0 rgba(34,211,238,.6);animation:pulse 2.2s infinite;
+  }
+  @keyframes pulse{
+    70%{box-shadow:0 0 0 9px rgba(34,211,238,0)}
+    100%{box-shadow:0 0 0 0 rgba(34,211,238,0)}
+  }
+  .hero h1{
+    font-size:clamp(2.1rem,5vw,3.4rem);font-weight:800;
+    line-height:1.08;letter-spacing:-.035em;margin-bottom:20px;
+  }
+  .grad{
+    background:linear-gradient(100deg,var(--accent) 0%,var(--accent-2) 60%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{
+    font-size:clamp(.97rem,1.6vw,1.08rem);color:var(--muted);
+    max-width:600px;margin-bottom:32px;
+  }
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:10px;
+  }
+  .meta-chip{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:8px 14px;border-radius:10px;font-size:.82rem;
+    background:var(--surface);border:1px solid var(--border);
+    color:var(--muted);
+  }
+  .meta-chip b{color:var(--text);font-weight:600}
+  .meta-chip svg{width:14px;height:14px;fill:currentColor;color:var(--accent-2)}
+
+  /* ---------- TOOLBAR ---------- */
+  .toolbar{
+    display:flex;flex-wrap:wrap;gap:14px;
+    align-items:center;justify-content:space-between;
+    margin-bottom:34px;padding-bottom:22px;
+    border-bottom:1px solid var(--border);
+  }
+  .filters{display:flex;flex-wrap:wrap;gap:9px}
+  .filter{
+    padding:8px 16px;border-radius:999px;font-size:.83rem;font-weight:500;
+    border:1px solid var(--border);color:var(--muted);
+    background:rgba(255,255,255,.02);
+    transition:all .22s;
+  }
+  .filter:hover{color:var(--text);border-color:var(--border-hi)}
+  .filter.active{
+    background:linear-gradient(135deg,var(--accent),#4f46e5);
+    border-color:transparent;color:#fff;
+    box-shadow:0 6px 20px -8px rgba(99,102,241,.9);
+  }
+  .count{
+    font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--muted);
+  }
+  .count b{color:var(--accent-2);font-weight:500}
+
+  /* ---------- GRID ---------- */
+  .grid{
+    display:grid;gap:22px;
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    padding-bottom:90px;
+  }
+  .shot{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);overflow:hidden;
+    cursor:pointer;position:relative;
+    transition:transform .3s cubic-bezier(.2,.8,.3,1),border-color .3s,box-shadow .3s;
+    animation:fadeUp .45s both;
+  }
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(16px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .shot:hover{
+    transform:translateY(-5px);
+    border-color:var(--border-hi);
+    box-shadow:0 22px 46px -22px rgba(0,0,0,.9),0 0 0 1px rgba(99,102,241,.18);
+  }
+  .shot-media{
+    position:relative;aspect-ratio:9/16;max-height:480px;overflow:hidden;background:var(--surface-2);
+  }
+  .shot-media img{
+    width:100%;height:100%;object-fit:cover;object-position:top;
+    transition:transform .6s cubic-bezier(.2,.8,.3,1),filter .4s;
+    filter:saturate(.92);
+  }
+  .shot:hover .shot-media img{transform:scale(1.04);filter:saturate(1.1)}
+  .shot-media::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(8,9,13,.9),rgba(8,9,13,.05) 55%);
+    opacity:0;transition:opacity .35s;
+  }
+  .shot:hover .shot-media::after{opacity:1}
+  .shot-view{
+    position:absolute;inset:0;z-index:2;display:grid;place-items:center;
+    opacity:0;transform:translateY(8px);transition:all .35s .05s;
+  }
+  .shot:hover .shot-view{opacity:1;transform:translateY(0)}
+  .shot-view span{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 20px;border-radius:999px;
+    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    font-size:.82rem;font-weight:600;
+  }
+  .shot-cat{
+    position:absolute;top:12px;left:12px;z-index:3;
+    padding:5px 11px;border-radius:999px;font-size:.68rem;font-weight:600;
+    letter-spacing:.06em;text-transform:uppercase;
+    background:rgba(8,9,13,.78);border:1px solid var(--border-hi);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    color:var(--accent-2);
+  }
+  .shot-body{padding:18px 20px 20px}
+  .shot-body h3{
+    font-size:1rem;font-weight:650;letter-spacing:-.015em;margin-bottom:6px;
+  }
+  .shot-body p{
+    font-size:.85rem;color:var(--muted);
+    display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--border);padding:34px 0}
+  .foot-inner{
+    display:flex;flex-wrap:wrap;gap:16px;
+    align-items:center;justify-content:space-between;
+    font-size:.84rem;color:var(--muted);
+  }
+  .foot-inner a{color:var(--accent-2);transition:color .2s}
+  .foot-inner a:hover{color:var(--text)}
+
+  /* ---------- LIGHTBOX ---------- */
+  .lb{
+    position:fixed;inset:0;z-index:500;display:none;
+    background:rgba(4,5,8,.95);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    padding:24px;overflow-y:auto;
+  }
+  .lb.open{display:flex;align-items:center;justify-content:center;animation:lbIn .22s ease}
+  @keyframes lbIn{from{opacity:0}to{opacity:1}}
+  .lb-box{
+    width:min(500px,100%);background:var(--surface);
+    border:1px solid var(--border-hi);border-radius:18px;overflow:hidden;
+    animation:lbUp .32s cubic-bezier(.2,.8,.3,1);margin:auto;
+  }
+  @keyframes lbUp{from{opacity:0;transform:translateY(22px) scale(.98)}to{opacity:1;transform:none}}
+  .lb-img{width:100%;background:#000;max-height:80vh;object-fit:contain;display:block}
+  .lb-bar{
+    display:flex;flex-wrap:wrap;gap:14px;
+    align-items:center;justify-content:space-between;
+    padding:16px 22px;
+  }
+  .lb-bar h3{font-size:1rem;font-weight:650;letter-spacing:-.015em}
+  .lb-bar .meta{
+    font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--muted);
+  }
+  .lb-close{
+    position:absolute;top:22px;right:22px;z-index:2;
+    width:44px;height:44px;border-radius:12px;
+    display:grid;place-items:center;font-size:1.3rem;
+    background:rgba(255,255,255,.07);border:1px solid var(--border-hi);
+    transition:background .2s,transform .2s;
+  }
+  .lb-close:hover{background:rgba(255,255,255,.15);transform:rotate(90deg)}
+  .lb-nav{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+    width:48px;height:48px;border-radius:50%;
+    display:grid;place-items:center;font-size:1.2rem;
+    background:rgba(255,255,255,.07);border:1px solid var(--border-hi);
+    transition:background .2s,transform .2s;
+  }
+  .lb-nav:hover{background:rgba(99,102,241,.35)}
+  .lb-prev{left:22px}.lb-next{right:22px}
+  .lb-prev:hover{transform:translateY(-50%) translateX(-3px)}
+  .lb-next:hover{transform:translateY(-50%) translateX(3px)}
+
+  /* ---------- EMPTY STATE ---------- */
+  .empty{
+    grid-column:1/-1;text-align:center;padding:70px 20px;
+    border:1px dashed var(--border-hi);border-radius:var(--radius);
+    color:var(--muted);
+  }
+  .empty b{display:block;color:var(--text);font-size:1.05rem;margin-bottom:8px;font-weight:650}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:760px){
+    .hero{padding:120px 0 50px}
+    .grid{grid-template-columns:1fr;gap:18px}
+    .lb-nav{display:none}
+    .lb-bar{padding:14px 18px}
+    .toolbar{align-items:flex-start;flex-direction:column;gap:16px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="./index.html" class="logo">
+      <span class="logo-mark">AK</span>
+      Demo Gallery
+    </a>
+    <a href="../../index.html" class="back-btn">← Back to portfolio</a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="badge"><span class="dot"></span> demo/Mahdara/</div>
+    <h1>School Manager<br><span class="grad">screenshot gallery</span></h1>
+    <p class="lead">
+      A walkthrough of the mobile School Management platform — featuring admin dashboards, class management, student registration, Quranic progress tracking, user management, and attendance sessions.
+    </p>
+    <div class="meta-row">
+      <span class="meta-chip">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v2H4V4zm0 5h16v2H4V9zm0 5h10v2H4v-2zm0 5h10v2H4v-2z"/></svg>
+        <b id="statCount">0</b> screenshots
+      </span>
+      <span class="meta-chip">
+        <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5zm0 9L2 16l10 5 10-5-10-5z"/></svg>
+        Mobile Application
+      </span>
+      <span class="meta-chip">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+        RTL / Arabic Support
+      </span>
+    </div>
+  </div>
+</header>
+
+<!-- ================= GALLERY ================= -->
+<main class="wrap">
+  <div class="toolbar">
+    <div class="filters" id="filters"></div>
+    <span class="count">Showing <b id="shownCount">0</b> of <b id="totalCount">0</b></span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap foot-inner">
+    <span>© <span id="year"></span> Abdellahi KRAMA · Demo gallery</span>
+    <span><a href="../../index.html">← Return to portfolio</a></span>
+  </div>
+</footer>
+
+<!-- ================= LIGHTBOX ================= -->
+<div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot preview">
+  <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous">‹</button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next">›</button>
+  <div class="lb-box">
+    <img class="lb-img" id="lbImg" src="" alt="">
+    <div class="lb-bar">
+      <h3 id="lbTitle"></h3>
+      <span class="meta" id="lbCounter"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   SCREENSHOT DATA
+   ========================================================= */
+const SHOTS = [
+  {
+    title: "Classroom Management (إدارة الأقسام)",
+    category: "classes",
+    file: "Screenshot_20260827_100755.jpg",
+
+    desc: "Interface for viewing created classes, student counts, adding new classrooms, or editing existing class details."
+  },
+  {
+    title: "Admin Control Center (لوحة تحكم الإدارة)",
+    category: "dashboard",
+    file: "Screenshot_20260930_192443_ .jpg",
+    desc: "Overview of academic statistics, student totals, class metrics, pending payments, and quick action tiles."
+  },
+  {
+    title: "Student Roster (إدارة الطلاب)",
+    category: "students",
+    file: "Screenshot_20260930_192848_ .jpg",
+    desc: "Overview of academic statistics, student totals, class metrics, pending payments, and quick action tiles."
+  },
+  {
+    title: "New Student Form (تسجيل طالب جديد)",
+    category: "students",
+    file: "Screenshot_20260930_193012_ .jpg",
+
+    desc: "Input form for capturing student details including full name, birth date, gender, assigned classroom, and guardian contact info."
+  },
+  {
+    title: "Hizb Selection & Progress (الأحزاب التي يحفظ)",
+    category: "students",
+    file: "Screenshot_20260930_193028_ .jpg",
+
+    desc: "Detailed checklist for selecting completed Quranic Hizb sections mastered by the student during registration."
+  },
+  {
+    title: "Attendance & Session Tracking (تسجيل الحضور والتسميع)",
+    category: "attendance",
+    file: "Screenshot_20260930_193051_ .jpg",
+
+    desc: "Form to record daily session details, course type, Quranic progress range, student attendance status, and individual teacher notes."
+  },
+  {
+    title: "Session Type Selection (نوع الجلسة)",
+    category: "attendance",
+    file: "Screenshot_20260930_193100_ .jpg",
+    desc: "Modal selection for session categorization: Acquisition (تحصيل), Recitation (تسميع), Revision (استرجاع), and Examination (اختبار)."
+  },
+  {
+    title: "Subject & Surah Selection (اختيار المادة والحزب)",
+    category: "curriculum",
+    file: "Screenshot_20260930_193122_ .jpg",
+    desc: "Dropdown search menu for picking specific Holy Quran portions, Surahs, or subjects for the active class session."
+  },
+  {
+    title: "Thuman Section Selection (اختيار الثمن)",
+    category: "curriculum",
+    file: "Screenshot_20260930_193135_ .jpg", 
+ desc: "Sub-division picker for granular tracking of specific Thuman (eighth of a Hizb) recitation progress."
+  },
+  {
+    title: "Student Selection Modal (اختر الطلاب)",
+    category: "attendance",
+    file: "Screenshot_20260930_193151_ .jpg",
+    desc: "Multi-select student picker overlay with search functionality to batch-mark attendance and session logs."
+  },
+  {
+    title: "Cumulative Progress & Session Stats (الوضع التراكمي والإحصائيات)",
+    category: "attendance",
+    file: "Screenshot_20260930_193219_ .jpg",
+    desc: "Overview of cumulative student progress per session type alongside summary statistics for total sessions and completed Ahzab."
+  },
+  {
+    title: "Historical Attendance Logs (سجلات الحضور الأرشيفية)",
+    category: "attendance",
+    file: "Screenshot_20260930_193233_ .jpg",
+
+    desc: "Archived records of past sessions detailing attendance counts, starting/ending Ahzab, recitation scopes, and timestamped entry logs."
+  },
+  {
+    title: "New User Registration Form (إضافة مستخدم جديد)",
+    category: "users",
+    file: "Screenshot_20260930_193348_ .jpg",
+    desc: "User creation modal for onboarding platform members with full name, contact number, password, email, and role assignment (Teacher or Guardian)."
+  },
+  {
+    title: "Classroom Directory View (إدارة الأقسام الدراسية)",
+    category: "classes",
+    file: "Screenshot_20260930_193404_ .jpg",
+    desc: "Classroom listing card showing student enrollment count, edit actions, and classroom deletion controls."
+  },
+  {
+    title: "Add New Classroom Modal (إضافة قسم دراسي جديد)",
+    category: "classes",
+    file: "Screenshot_20260930_193412_ .jpg",
+    desc: "Modal dialogue for creating a new class section with level designation (e.g., Primary/Middle) and maximum student capacity settings."
+  },
+  {
+    title: "Subject & Teacher Assignment List (إدارة المواد والأستاذة)",
+    category: "curriculum",
+    file: "Screenshot_20260930_193425_ .jpg",
+
+    desc: "Overview card of subject curricula showing assigned instructor status, total registered classes, and lesson count."
+  },
+  {
+    title: "Edit Subject & Assign Teacher Modal (تعديل المادة / تعيين أستاذ)",
+    category: "curriculum",
+    file: "Screenshot_20260930_194045_ .jpg",
+
+    desc: "Form overlay to edit subject names, assign subject codes (e.g. MATH101), add descriptions, and select assigned teachers."
+  },
+  {
+    title: "Updated Subject Details Card (إدارة المواد والأستاذة)",
+    category: "curriculum",
+    file: "Screenshot_20260930_194057_ .jpg",
+    desc: "Updated curriculum card reflecting active teacher assignment (أستاذ القرءان) and detailed course statistics."
+  }
+];
+
+const CATEGORIES = [
+  { id: "all",        label: "All" },
+  { id: "dashboard",  label: "Dashboard" },
+  { id: "students",   label: "Students" },
+  { id: "classes",    label: "Classes" },
+  { id: "attendance", label: "Attendance" },
+  { id: "curriculum", label: "Curriculum" },
+  { id: "users",      label: "Users" }
+];
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+const grid      = document.getElementById("grid");
+const filtersEl = document.getElementById("filters");
+const lightbox  = document.getElementById("lightbox");
+const lbImg     = document.getElementById("lbImg");
+const lbTitle   = document.getElementById("lbTitle");
+const lbCounter = document.getElementById("lbCounter");
+
+const shownCount = document.getElementById("shownCount");
+const totalCount = document.getElementById("totalCount");
+const statCount  = document.getElementById("statCount");
+
+let activeFilter = "all";
+let visible = [];
+let currentIndex = 0;
+
+const catLabel = id => (CATEGORIES.find(c => c.id === id) || {}).label || id;
+
+/* =========================================================
+   BUILD FILTERS
+   ========================================================= */
+CATEGORIES.forEach(cat => {
+  const btn = document.createElement("button");
+  btn.className = "filter" + (cat.id === "all" ? " active" : "");
+  btn.textContent = cat.label;
+  btn.addEventListener("click", () => {
+    activeFilter = cat.id;
+    document.querySelectorAll(".filter").forEach(b => b.classList.toggle("active", b === btn));
+    renderGrid();
+  });
+  filtersEl.appendChild(btn);
+});
+
+/* =========================================================
+   RENDER GRID
+   ========================================================= */
+function renderGrid() {
+  visible = SHOTS.filter(s => activeFilter === "all" || s.category === activeFilter);
+
+  shownCount.textContent = visible.length;
+  totalCount.textContent = SHOTS.length;
+  statCount.textContent  = SHOTS.length;
+
+  if (!visible.length) {
+    grid.innerHTML = `
+      <div class="empty">
+        <b>No screenshots in this category</b>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = visible.map((s, i) => `
+    <article class="shot" data-index="${i}" style="animation-delay:${i * 45}ms">
+      <div class="shot-media">
+        <span class="shot-cat">${catLabel(s.category)}</span>
+        <img src="${s.file}" alt="${s.title} screenshot" loading="lazy"
+             onerror="this.parentElement.classList.add('missing'); this.alt='Missing image: ${s.file}'">
+        <div class="shot-view"><span>⤢ View full size</span></div>
+      </div>
+      <div class="shot-body">
+        <h3>${s.title}</h3>
+        <p>${s.desc}</p>
+      </div>
+    </article>
+  `).join("");
+}
+
+grid.addEventListener("click", e => {
+  const shot = e.target.closest(".shot");
+  if (shot) openLightbox(Number(shot.dataset.index));
+});
+
+/* =========================================================
+   LIGHTBOX
+   ========================================================= */
+function openLightbox(index) {
+  currentIndex = index;
+  paintLightbox();
+  lightbox.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function paintLightbox() {
+  const s = visible[currentIndex];
+  if (!s) return;
+  lbImg.src = s.file;
+  lbImg.alt = s.title + " screenshot";
+  lbTitle.textContent = s.title;
+  lbCounter.textContent =
+    `${String(currentIndex + 1).padStart(2, "0")} / ${String(visible.length).padStart(2, "0")}`;
+}
+
+function step(dir) {
+  currentIndex = (currentIndex + dir + visible.length) % visible.length;
+  paintLightbox();
+}
+
+document.getElementById("lbClose").addEventListener("click", closeLightbox);
+document.getElementById("lbPrev").addEventListener("click", () => step(-1));
+document.getElementById("lbNext").addEventListener("click", () => step(1));
+lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
+
+document.addEventListener("keydown", e => {
+  if (!lightbox.classList.contains("open")) return;
+  if (e.key === "Escape")     closeLightbox();
+  if (e.key === "ArrowLeft")  step(-1);
+  if (e.key === "ArrowRight") step(1);
+});
+
+/* =========================================================
+   MISC
+   ========================================================= */
+const nav = document.getElementById("nav");
+window.addEventListener("scroll", () => {
+  nav.classList.toggle("scrolled", window.scrollY > 12);
+}, { passive: true });
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* =========================================================
+   INIT
+   ========================================================= */
+renderGrid();
+</script>
+</body>
+</html>

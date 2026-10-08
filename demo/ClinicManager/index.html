@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo Gallery — Clinic Management System</title>
+<meta name="description" content="Screenshot gallery for the Clinic Management System — patients, doctors, appointments and medical records.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08090d;
+    --surface:#101219;
+    --surface-2:#171a24;
+    --border:rgba(255,255,255,.08);
+    --border-hi:rgba(255,255,255,.16);
+    --text:#e9ecf5;
+    --muted:#8b93a7;
+    --accent:#6366f1;
+    --accent-2:#22d3ee;
+    --radius:16px;
+    --maxw:1200px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:90px}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:var(--bg);color:var(--text);
+    line-height:1.65;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ---------- TOP BAR ---------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:200;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    background:rgba(8,9,13,.7);
+    border-bottom:1px solid transparent;
+    transition:background .3s,border-color .3s;
+  }
+  .nav.scrolled{background:rgba(8,9,13,.92);border-bottom-color:var(--border)}
+  .nav-inner{
+    max-width:var(--maxw);margin:0 auto;padding:0 24px;
+    height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px;
+  }
+  .logo{
+    font-weight:800;font-size:1.05rem;letter-spacing:-.02em;
+    display:flex;align-items:center;gap:9px;
+  }
+  .logo-mark{
+    width:30px;height:30px;border-radius:9px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:grid;place-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#06070a;font-weight:700;
+  }
+  .back-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:9px 18px;border-radius:10px;font-size:.87rem;font-weight:600;
+    border:1px solid var(--border-hi);color:var(--text);
+    transition:border-color .2s,background .2s,transform .2s;
+  }
+  .back-btn:hover{border-color:var(--accent);background:rgba(99,102,241,.12);transform:translateY(-1px)}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;padding:150px 0 70px;overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000 20%,transparent 75%);
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000 20%,transparent 75%);
+  }
+  .hero::after{
+    content:'';position:absolute;top:-240px;left:50%;transform:translateX(-50%);
+    width:820px;height:520px;pointer-events:none;
+    background:radial-gradient(ellipse at center,rgba(99,102,241,.22),transparent 62%);
+    filter:blur(30px);
+  }
+  .hero-inner{position:relative;z-index:1;max-width:760px}
+  .badge{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:7px 15px;border-radius:999px;
+    border:1px solid var(--border-hi);background:rgba(255,255,255,.03);
+    font-family:'JetBrains Mono',monospace;
+    font-size:.76rem;font-weight:500;color:var(--muted);
+    margin-bottom:24px;
+  }
+  .badge .dot{
+    width:7px;height:7px;border-radius:50%;background:var(--accent-2);
+    box-shadow:0 0 0 0 rgba(34,211,238,.6);animation:pulse 2.2s infinite;
+  }
+  @keyframes pulse{
+    70%{box-shadow:0 0 0 9px rgba(34,211,238,0)}
+    100%{box-shadow:0 0 0 0 rgba(34,211,238,0)}
+  }
+  .hero h1{
+    font-size:clamp(2.1rem,5vw,3.4rem);font-weight:800;
+    line-height:1.08;letter-spacing:-.035em;margin-bottom:20px;
+  }
+  .hero h1 .ar{
+    display:block;font-family:'Cairo',sans-serif;
+    font-size:.55em;font-weight:600;letter-spacing:0;
+    color:var(--muted);margin-top:8px;
+  }
+  .grad{
+    background:linear-gradient(100deg,var(--accent) 0%,var(--accent-2) 60%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{
+    font-size:clamp(.97rem,1.6vw,1.08rem);color:var(--muted);
+    max-width:620px;margin-bottom:32px;
+  }
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:10px;
+  }
+  .meta-chip{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:8px 14px;border-radius:10px;font-size:.82rem;
+    background:var(--surface);border:1px solid var(--border);
+    color:var(--muted);
+  }
+  .meta-chip b{color:var(--text);font-weight:600}
+  .meta-chip svg{width:14px;height:14px;fill:currentColor;color:var(--accent-2)}
+
+  /* ---------- TOOLBAR ---------- */
+  .toolbar{
+    display:flex;flex-wrap:wrap;gap:14px;
+    align-items:center;justify-content:space-between;
+    margin-bottom:34px;padding-bottom:22px;
+    border-bottom:1px solid var(--border);
+  }
+  .filters{display:flex;flex-wrap:wrap;gap:9px}
+  .filter{
+    padding:8px 16px;border-radius:999px;font-size:.83rem;font-weight:500;
+    border:1px solid var(--border);color:var(--muted);
+    background:rgba(255,255,255,.02);
+    transition:all .22s;
+  }
+  .filter:hover{color:var(--text);border-color:var(--border-hi)}
+  .filter.active{
+    background:linear-gradient(135deg,var(--accent),#4f46e5);
+    border-color:transparent;color:#fff;
+    box-shadow:0 6px 20px -8px rgba(99,102,241,.9);
+  }
+  .count{
+    font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--muted);
+  }
+  .count b{color:var(--accent-2);font-weight:500}
+
+  /* ---------- GRID ---------- */
+  .grid{
+    display:grid;gap:22px;
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    padding-bottom:90px;
+  }
+  .shot{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);overflow:hidden;
+    cursor:pointer;position:relative;
+    transition:transform .3s cubic-bezier(.2,.8,.3,1),border-color .3s,box-shadow .3s;
+    animation:fadeUp .45s both;
+  }
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(16px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .shot:hover{
+    transform:translateY(-5px);
+    border-color:var(--border-hi);
+    box-shadow:0 22px 46px -22px rgba(0,0,0,.9),0 0 0 1px rgba(99,102,241,.18);
+  }
+  .shot-media{
+    position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--surface-2);
+  }
+  .shot-media img{
+    width:100%;height:100%;object-fit:cover;
+    transition:transform .6s cubic-bezier(.2,.8,.3,1),filter .4s;
+    filter:saturate(.92);
+  }
+  .shot:hover .shot-media img{transform:scale(1.06);filter:saturate(1.1)}
+  .shot-media::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(8,9,13,.9),rgba(8,9,13,.05) 55%);
+    opacity:0;transition:opacity .35s;
+  }
+  .shot:hover .shot-media::after{opacity:1}
+  .shot-view{
+    position:absolute;inset:0;z-index:2;display:grid;place-items:center;
+    opacity:0;transform:translateY(8px);transition:all .35s .05s;
+  }
+  .shot:hover .shot-view{opacity:1;transform:translateY(0)}
+  .shot-view span{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 20px;border-radius:999px;
+    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    font-size:.82rem;font-weight:600;
+  }
+  .shot-cat{
+    position:absolute;top:12px;left:12px;z-index:3;
+    padding:5px 11px;border-radius:999px;font-size:.68rem;font-weight:600;
+    letter-spacing:.06em;text-transform:uppercase;
+    background:rgba(8,9,13,.78);border:1px solid var(--border-hi);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    color:var(--accent-2);
+  }
+  .shot-body{padding:18px 20px 20px}
+  .shot-body h3{
+    font-size:1rem;font-weight:650;letter-spacing:-.015em;margin-bottom:4px;
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;
+  }
+  .shot-body h3 .ar{
+    font-family:'Cairo',sans-serif;font-size:.82rem;font-weight:600;
+    color:var(--muted);
+  }
+  .shot-body p{
+    font-size:.85rem;color:var(--muted);
+    display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--border);padding:34px 0}
+  .foot-inner{
+    display:flex;flex-wrap:wrap;gap:16px;
+    align-items:center;justify-content:space-between;
+    font-size:.84rem;color:var(--muted);
+  }
+  .foot-inner a{color:var(--accent-2);transition:color .2s}
+  .foot-inner a:hover{color:var(--text)}
+
+  /* ---------- LIGHTBOX ---------- */
+  .lb{
+    position:fixed;inset:0;z-index:500;display:none;
+    background:rgba(4,5,8,.95);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    padding:24px;overflow-y:auto;
+  }
+  .lb.open{display:flex;align-items:center;justify-content:center;animation:lbIn .22s ease}
+  @keyframes lbIn{from{opacity:0}to{opacity:1}}
+  .lb-box{
+    width:min(1100px,100%);background:var(--surface);
+    border:1px solid var(--border-hi);border-radius:18px;overflow:hidden;
+    animation:lbUp .32s cubic-bezier(.2,.8,.3,1);margin:auto;
+  }
+  @keyframes lbUp{from{opacity:0;transform:translateY(22px) scale(.98)}to{opacity:1;transform:none}}
+  .lb-img{width:100%;background:#000;max-height:70vh;object-fit:contain;display:block}
+  .lb-bar{
+    display:flex;flex-wrap:wrap;gap:14px;
+    align-items:center;justify-content:space-between;
+    padding:16px 22px;
+  }
+  .lb-bar h3{font-size:1rem;font-weight:650;letter-spacing:-.015em}
+  .lb-bar h3 .ar{font-family:'Cairo',sans-serif;color:var(--muted);font-size:.85rem;margin-left:8px}
+  .lb-bar .meta{
+    font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--muted);
+  }
+  .lb-close{
+    position:absolute;top:22px;right:22px;z-index:2;
+    width:44px;height:44px;border-radius:12px;
+    display:grid;place-items:center;font-size:1.3rem;
+    background:rgba(255,255,255,.07);border:1px solid var(--border-hi);
+    transition:background .2s,transform .2s;
+  }
+  .lb-close:hover{background:rgba(255,255,255,.15);transform:rotate(90deg)}
+  .lb-nav{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+    width:48px;height:48px;border-radius:50%;
+    display:grid;place-items:center;font-size:1.2rem;
+    background:rgba(255,255,255,.07);border:1px solid var(--border-hi);
+    transition:background .2s,transform .2s;
+  }
+  .lb-nav:hover{background:rgba(99,102,241,.35)}
+  .lb-prev{left:22px}.lb-next{right:22px}
+  .lb-prev:hover{transform:translateY(-50%) translateX(-3px)}
+  .lb-next:hover{transform:translateY(-50%) translateX(3px)}
+
+  /* ---------- EMPTY STATE ---------- */
+  .empty{
+    grid-column:1/-1;text-align:center;padding:70px 20px;
+    border:1px dashed var(--border-hi);border-radius:var(--radius);
+    color:var(--muted);
+  }
+  .empty b{display:block;color:var(--text);font-size:1.05rem;margin-bottom:8px;font-weight:650}
+  .empty code{
+    font-family:'JetBrains Mono',monospace;font-size:.82rem;
+    background:var(--surface);padding:3px 8px;border-radius:6px;
+    border:1px solid var(--border);color:var(--accent-2);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:760px){
+    .hero{padding:120px 0 50px}
+    .grid{grid-template-columns:1fr;gap:18px}
+    .lb-nav{display:none}
+    .lb-bar{padding:14px 18px}
+    .toolbar{align-items:flex-start;flex-direction:column;gap:16px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">
+      <span class="logo-mark">CM</span>
+      Demo Gallery
+    </a>
+    <a href="../index.html" class="back-btn">← Back to portfolio</a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="badge"><span class="dot"></span> demo/clinicManager/</div>
+    <h1>
+      Clinic Management<br><span class="grad">screenshot gallery</span>
+      <span class="ar">العيادة — نظام الإدارة</span>
+    </h1>
+    <p class="lead">
+      A full walkthrough of the Clinic Management System — dashboard, patients,
+      doctors, appointments and medical records. Arabic RTL interface.
+      Click any screenshot to open it full size.
+    </p>
+    <div class="meta-row">
+      <span class="meta-chip">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v2H4V4zm0 5h16v2H4V9zm0 5h10v2H4v-2zm0 5h10v2H4v-2z"/></svg>
+        <b id="statCount">0</b> screenshots
+      </span>
+      <span class="meta-chip">
+        <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5zm0 9L2 16l10 5 10-5-10-5z"/></svg>
+        Full-stack web app
+      </span>
+      <span class="meta-chip">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+        Arabic RTL · Responsive UI
+      </span>
+    </div>
+  </div>
+</header>
+
+<!-- ================= GALLERY ================= -->
+<main class="wrap">
+  <div class="toolbar">
+    <div class="filters" id="filters"></div>
+    <span class="count">Showing <b id="shownCount">0</b> of <b id="totalCount">0</b></span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap foot-inner">
+    <span>© <span id="year"></span> Abdellahi KRAMA · Clinic demo gallery</span>
+    <span><a href="../index.html">← Return to portfolio</a></span>
+  </div>
+</footer>
+
+<!-- ================= LIGHTBOX ================= -->
+<div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot preview">
+  <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous">‹</button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next">›</button>
+  <div class="lb-box">
+    <img class="lb-img" id="lbImg" src="" alt="">
+    <div class="lb-bar">
+      <h3 id="lbTitle"></h3>
+      <span class="meta" id="lbCounter"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   SCREENSHOT DATA
+   ---------------------------------------------------------
+   Drop your clinic screenshots into `demo/clinicManager/`
+   and update the `file` values below to match the filenames.
+   ========================================================= */
+const SHOTS = [
+  {
+    title: "Login",
+    titleAr: "تسجيل الدخول",
+    category: "auth",
+    file: "clinicManager/login.png",
+    desc: "Secure login screen for clinic staff. Arabic RTL layout with username and password authentication."
+  },
+  {
+    title: "Dashboard",
+    titleAr: "لوحة التحكم",
+    category: "dashboard",
+    file: "clinicManager/dashboard.png",
+    desc: "Overview stats for patients, doctors, today's appointments and departments, plus a recent-appointments table."
+  },
+  {
+    title: "Doctors List",
+    titleAr: "الأطباء",
+    category: "doctors",
+    file: "clinicManager/doctors.png",
+    desc: "Directory of doctors with search, ID scan and speciality / department columns."
+  },
+  {
+    title: "Add Doctor",
+    titleAr: "إضافة طبيب",
+    category: "doctors",
+    file: "clinicManager/add-doctor.png",
+    desc: "Modal form for registering a new doctor with first/last name, speciality, department, email and phone."
+  },
+  {
+    title: "Patients List",
+    titleAr: "المراجعين",
+    category: "patients",
+    file: "clinicManager/patients.png",
+    desc: "Patient registry with blood type, birth date, gender, phone and address. Pagination included."
+  },
+  {
+    title: "Add Patient",
+    titleAr: "إضافة مراجع",
+    category: "patients",
+    file: "clinicManager/add-patient.png",
+    desc: "Patient intake form with date picker, gender selector, blood type, contact and address fields."
+  },
+  {
+    title: "Appointments List",
+    titleAr: "المواعيد",
+    category: "appointments",
+    file: "clinicManager/appointments.png",
+    desc: "Scheduled appointments table with status filter (scheduled / completed / cancelled) and per-row actions."
+  },
+  {
+    title: "New Appointment",
+    titleAr: "موعد جديد",
+    category: "appointments",
+    file: "clinicManager/add-appointment.png",
+    desc: "Booking modal linking a patient with a doctor, date, time, status and a reason for the visit."
+  },
+  {
+    title: "Edit Appointment",
+    titleAr: "تعديل الموعد",
+    category: "appointments",
+    file: "clinicManager/edit-appointment.png",
+    desc: "Pre-filled edit modal for updating an existing appointment's date, time, status or notes."
+  },
+  {
+    title: "Medical Records",
+    titleAr: "السجلات الطبية",
+    category: "records",
+    file: "clinicManager/records.png",
+    desc: "Patient medical history list linking doctor, diagnosis, treatment and date for each consultation."
+  },
+  {
+    title: "New Medical Record",
+    titleAr: "سجل طبي جديد",
+    category: "records",
+    file: "clinicManager/add-record.png",
+    desc: "Modal to record a consultation with patient / doctor selectors plus diagnosis, treatment and notes textareas."
+  }
+];
+
+const CATEGORIES = [
+  { id: "all",          label: "All" },
+  { id: "auth",         label: "Login" },
+  { id: "dashboard",    label: "Dashboard" },
+  { id: "patients",     label: "Patients" },
+  { id: "doctors",      label: "Doctors" },
+  { id: "appointments", label: "Appointments" },
+  { id: "records",      label: "Medical Records" }
+];
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+const grid      = document.getElementById("grid");
+const filtersEl = document.getElementById("filters");
+const lightbox  = document.getElementById("lightbox");
+const lbImg     = document.getElementById("lbImg");
+const lbTitle   = document.getElementById("lbTitle");
+const lbCounter = document.getElementById("lbCounter");
+
+const shownCount = document.getElementById("shownCount");
+const totalCount = document.getElementById("totalCount");
+const statCount  = document.getElementById("statCount");
+
+let activeFilter = "all";
+let visible = [];
+let currentIndex = 0;
+
+const catLabel = id => (CATEGORIES.find(c => c.id === id) || {}).label || id;
+
+/* =========================================================
+   BUILD FILTERS
+   ========================================================= */
+CATEGORIES.forEach(cat => {
+  const btn = document.createElement("button");
+  btn.className = "filter" + (cat.id === "all" ? " active" : "");
+  btn.textContent = cat.label;
+  btn.addEventListener("click", () => {
+    activeFilter = cat.id;
+    document.querySelectorAll(".filter").forEach(b => b.classList.toggle("active", b === btn));
+    renderGrid();
+  });
+  filtersEl.appendChild(btn);
+});
+
+/* =========================================================
+   RENDER GRID
+   ========================================================= */
+function renderGrid() {
+  visible = SHOTS.filter(s => activeFilter === "all" || s.category === activeFilter);
+
+  shownCount.textContent = visible.length;
+  totalCount.textContent = SHOTS.length;
+  statCount.textContent  = SHOTS.length;
+
+  if (!visible.length) {
+    grid.innerHTML = `
+      <div class="empty">
+        <b>No screenshots in this category yet</b>
+        Add entries to the <code>SHOTS</code> array in <code>demo/index.html</code>
+        and drop the image files into <code>demo/clinicManager/</code>.
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = visible.map((s, i) => `
+    <article class="shot" data-index="${i}" style="animation-delay:${i * 45}ms">
+      <div class="shot-media">
+        <span class="shot-cat">${catLabel(s.category)}</span>
+        <img src="${s.file}" alt="${s.title} screenshot" loading="lazy"
+             onerror="this.parentElement.classList.add('missing'); this.alt='Missing image: ${s.file}'">
+        <div class="shot-view"><span>⤢ View full size</span></div>
+      </div>
+      <div class="shot-body">
+        <h3>${s.title}${s.titleAr ? `<span class="ar">${s.titleAr}</span>` : ""}</h3>
+        <p>${s.desc}</p>
+      </div>
+    </article>
+  `).join("");
+}
+
+grid.addEventListener("click", e => {
+  const shot = e.target.closest(".shot");
+  if (shot) openLightbox(Number(shot.dataset.index));
+});
+
+/* =========================================================
+   LIGHTBOX
+   ========================================================= */
+function openLightbox(index) {
+  currentIndex = index;
+  paintLightbox();
+  lightbox.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function paintLightbox() {
+  const s = visible[currentIndex];
+  if (!s) return;
+  lbImg.src = s.file;
+  lbImg.alt = s.title + " screenshot";
+  lbTitle.innerHTML = s.title + (s.titleAr ? `<span class="ar">${s.titleAr}</span>` : "");
+  lbCounter.textContent =
+    `${String(currentIndex + 1).padStart(2, "0")} / ${String(visible.length).padStart(2, "0")}`;
+}
+
+function step(dir) {
+  currentIndex = (currentIndex + dir + visible.length) % visible.length;
+  paintLightbox();
+}
+
+document.getElementById("lbClose").addEventListener("click", closeLightbox);
+document.getElementById("lbPrev").addEventListener("click", () => step(-1));
+document.getElementById("lbNext").addEventListener("click", () => step(1));
+lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
+
+document.addEventListener("keydown", e => {
+  if (!lightbox.classList.contains("open")) return;
+  if (e.key === "Escape")     closeLightbox();
+  if (e.key === "ArrowLeft")  step(-1);
+  if (e.key === "ArrowRight") step(1);
+});
+
+/* =========================================================
+   MISC
+   ========================================================= */
+const nav = document.getElementById("nav");
+window.addEventListener("scroll", () => {
+  nav.classList.toggle("scrolled", window.scrollY > 12);
+}, { passive: true });
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* =========================================================
+   INIT
+   ========================================================= */
+renderGrid();
+</script>
+</body>
+</html>
